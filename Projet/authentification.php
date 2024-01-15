@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
-  <title>Se connecter</title>
+  <title>Authenification</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Inclusion de Bootstrap CSS-->
@@ -24,7 +23,7 @@
   if ($_SESSION['connecte'] === true) {
     if ($_SESSION['profil'] !== "membre") {
       echo '<div class="border p-3 text-center">';
-      echo '<p >' . $_SESSION['profil'] . '</p><br>';
+      echo '<p >' . $_SESSION['profil'] . ' :'. '</p><br>';
       echo '<p>' . $_SESSION['nom'] . ' ' . $_SESSION['prenom'] . '</p><br>';
       echo '<p>' . $_SESSION['mel'] . '</p><br>';
       echo '<form method="post">
@@ -39,7 +38,7 @@
       echo '<p>' . $_SESSION['adresse'] . '</p><br>';
       echo '<p>' . $_SESSION['codepostal'] . ' ' . $_SESSION['ville'] . '</p><br>';
       echo '<form method="post">
-          <input type="submit" class="btn btn-outline-secondary" value="Se déconnecter" name="deco">
+          <input type="submit" class="btn btn-outline-secondary mt-2" value="Se déconnecter" name="deco">
           </form>';
       echo '</div>';
     }
@@ -80,7 +79,7 @@
       echo '<label for="email">Identifiant</label>';
       echo '<input type="email" class="form-control solid" id="email" placeholder="Enter email" name="email">';
       echo '<label for="pwd">Mot de passe</label>';
-      echo '<input type="password" class="form-control solid" id="pwd" placeholder="Enter password" name="mdp">';
+      echo '<input type="password" class="form-control solid" id="pwd" placeholder="Enter password" name="mdp"><br>';
       echo '<button type="submit" class="btn btn-outline-secondary solid" name="btn">Connexion</button>';
       echo '</form>';
       echo '</div>';
