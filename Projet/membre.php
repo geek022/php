@@ -16,7 +16,6 @@ if (!isset($_SESSION['profil']) || $_SESSION['profil'] !== 'admin') {
     <title>Créer un membre - Administrateur</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>
@@ -36,11 +35,19 @@ if (!isset($_SESSION['profil']) || $_SESSION['profil'] !== 'admin') {
                 $adresse = $_POST['adresse'];
                 $ville = $_POST['ville'];
                 $cp = $_POST['codepostal'];
-                $profil = "membre";
+                $profil = $_POST['profil'];
+                //Hachage du mot de passe
+                $mdp_hache = password_hash($mdp, PASSWORD_DEFAULT);
+                //Vérification du mot de passe
+                if(password_verify($mdp,$mdp_hache)){
+                    echo 'Le mot de passe est valide !';
+                } else {
+                    echo 'Le mot de passe est invalide.';
+                }
                 //Contrôle de saisie
                 if (empty($mel) || !filter_var($mel, FILTER_VALIDATE_EMAIL)) {
                     $erreurs['mel'] = 'Le mel est vide ou invalide.';
-                } elseif (empty($mdp) || strlen($mdp) < 4) {
+                } elseif (empty($mdp) || strlen($mdp) < 10) {
                     $erreurs['motdepasse'] = 'Le mot de passe est vide ou invalide.';
                 } elseif (empty($nom) || empty($prenom) || empty($adresse) || empty($ville) || empty($cp)) {
                     $erreurs['champs'] = 'Tous les champs sont obligatoires.';
@@ -51,7 +58,7 @@ if (!isset($_SESSION['profil']) || $_SESSION['profil'] !== 'admin') {
                     //CNX A LA BDD
                     $ajouter_Membre = $connexion->prepare('INSERT INTO UTILISATEUR (mel,motdepasse,nom,prenom,adresse,ville,codepostal,profil) VALUES(:mel,:motdepasse,:nom,:prenom,:adresse,:ville,:codepostal,:profil)');
                     $ajouter_Membre->bindParam(':mel', $mel);
-                    $ajouter_Membre->bindParam(':motdepasse', $mdp);
+                    $ajouter_Membre->bindParam(':motdepasse', $mdp_hache);
                     $ajouter_Membre->bindParam(':nom', $nom);
                     $ajouter_Membre->bindParam(':prenom', $prenom);
                     $ajouter_Membre->bindParam(':adresse', $adresse);
@@ -90,14 +97,18 @@ if (!isset($_SESSION['profil']) || $_SESSION['profil'] !== 'admin') {
                             <label for="mel" class="form-label">Mel: </label>
                             <input type="text" class="form-control" name="mel" required>
                             <?php
-                            if (isset($erreurs['mel'])) echo '<span class="text-danger">' . $erreurs['mel'] . '</span>';
+                            if (isset($erreurs['mel'])){
+                                echo '<span class="text-danger">' . $erreurs['mel'] . '</span>';
+                            }
                             ?>
                         </div>
                         <div class="mb-3">
                             <label for="motdepasse" class="form-label"> Mot de passe: </label>
                             <input type="text" class="form-control" name="motdepasse" required>
                             <?php
-                            if (isset($erreurs['motdepasse'])) echo '<span class="text-danger">' . $erreurs['motdepasse'] . '</span>';
+                            if (isset($erreurs['motdepasse'])){
+                                echo '<span class="text-danger">' . $erreurs['motdepasse'] . '</span>';
+                            }
                             ?>
                         </div>
                         <div class="mb-3">
@@ -120,8 +131,17 @@ if (!isset($_SESSION['profil']) || $_SESSION['profil'] !== 'admin') {
                             <label for="codepostal" class="form-label">Code Postal: </label>
                             <input type="text" class="form-control" name="codepostal" required>
                             <?php
-                            if (isset($erreurs['codepostal'])) echo '<span class="text-danger">' . $erreurs['codepostal'] . '</span>';
+                            if (isset($erreurs['codepostal'])){
+                                echo '<span class="text-danger">' . $erreurs['codepostal'] . '</span>';
+                            }
                             ?>
+                        </div>
+                        <div class="mb-3">
+                            <label for="profil" class="form-label">Profil: </label>
+                            <select name="profil" class="form-select" required>
+                                <option value="membre">Membre</option>
+                                <option value="admin">Administrateur</option>
+                            </select>
                         </div>
                         <div>
                             <input type="submit" class="btn btn-secondary" value="Créer un membre" name="membre">

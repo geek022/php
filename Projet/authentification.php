@@ -24,7 +24,7 @@
     if ($_SESSION['profil'] !== "membre") {
       echo '<div class="border p-3 text-center">';
       echo '<p >' . $_SESSION['profil'] . ' :'. '</p><br>';
-      echo '<p>' . $_SESSION['nom'] . ' ' . $_SESSION['prenom'] . '</p><br>';
+      echo '<p>' . $_SESSION['prenom'] . ' ' . $_SESSION['nom'] . '</p><br>';
       echo '<p>' . $_SESSION['mel'] . '</p><br>';
       echo '<form method="post">
           <input type="submit" class="btn btn-outline-secondary mt-2" value="Se déconnecter" name="deco">
@@ -33,7 +33,7 @@
     } else {
       //Affichage des informations de l'utilisateur après connexion
       echo '<div class="border p-3 text-center">';
-      echo '<p>' . $_SESSION['nom'] . ' ' . $_SESSION['prenom'] . '</p><br>';
+      echo '<p>' . $_SESSION['prenom'] . ' ' . $_SESSION['nom'] . '</p><br>';
       echo '<p>' . $_SESSION['mel'] . '</p><br>';
       echo '<p>' . $_SESSION['adresse'] . '</p><br>';
       echo '<p>' . $_SESSION['codepostal'] . ' ' . $_SESSION['ville'] . '</p><br>';
@@ -68,7 +68,7 @@
         $_SESSION['connecte'] = true;
         header("Location:accueil.php");
       } else {
-        echo '<p>Vous êtes déconnecté</p>';
+        echo '<p class="float-end">Vous êtes déconnecté</p>';
         $_SESSION['connecte'] = false;
       }
     } else {
