@@ -135,7 +135,10 @@ $empruntsEncours = $nombreEmpruntsMax - count($_SESSION['panier']);
                 </div>
             </div>
             <div class="col-md-2">
-                <?php include_once('authentification.php') ?>
+                <?php 
+                include_once('authentification.php');
+                include_once('session.php');
+                 ?>
             </div>
         </div>
 </body>

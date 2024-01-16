@@ -41,6 +41,7 @@ session_start();
     }
     echo '<div class="col-md-2">';
     include('authentification.php');
+    include_once('session.php');
     echo '</div>';
     echo '</div>';
     echo '<div class="row">';

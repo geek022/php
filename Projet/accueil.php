@@ -57,6 +57,7 @@
     <div class="col-md-2">
       <?php
       include_once('authentification.php');
+      include_once('session.php');
       ?>
     </div>
   </div>

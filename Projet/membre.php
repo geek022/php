@@ -144,7 +144,10 @@ if (!isset($_SESSION['profil']) || $_SESSION['profil'] !== 'admin') {
                 </div>
             </div>
             <div class="col-md-2 ">
-                <?php include_once('authentification.php') ?>
+                <?php
+                include_once('authentification.php');
+                include_once('session.php');
+                ?>
             </div>
         </div>
     </div>
