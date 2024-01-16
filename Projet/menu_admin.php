@@ -34,14 +34,14 @@ if (isset($_SESSION['profil']) && $_SESSION['profil'] == 'membre') {
                     $erreurs = array();
                     // Si le formulaire d'ajout de livre est soumis
                     if (isset($_POST['ajouter_livre'])) {
-                        //Je vérifie si les clés existe dans le tableau et je les récupère sinon la fonction retourne null
-                        $auteur = isset($_POST['auteur']) ? $_POST['auteur'] : null;
-                        $titre = isset($_POST['titre']) ? $_POST['titre'] : null;
-                        $isbn13 = isset($_POST['isbn13']) ? $_POST['isbn13'] : null;
-                        $anneeparution = isset($_POST['anneeparution']) ? $_POST['anneeparution'] : null;
-                        $resume = isset($_POST['resume']) ? $_POST['resume'] : null;
+                        // Récupération des données du formulaire
+                        $auteur = $_POST['auteur'];
+                        $titre = $_POST['titre'];
+                        $isbn13 = $_POST['isbn13'];
+                        $anneeparution = $_POST['anneeparution'];
+                        $resume = $_POST['resume'];
                         $dateajout = date('Y-m-d H:i:s');
-                        $image = isset($_POST['image']) ? $_POST['image'] : null;
+                        $image = $_POST['image'];
                         //Contrôle de saisie
                         if (empty($titre)) {
                             $erreurs['titre'] = 'Le titre est vide ou invalide.';
