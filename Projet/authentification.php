@@ -57,7 +57,8 @@
       $requete->bindParam(":email", $mail);
       $requete->execute();
       $resultat = $requete->fetch(PDO::FETCH_OBJ);
-      if ($resultat->motdepasse == $_POST['mdp']) {
+      //Vérification du mot de passe
+      if (password_verify($_POST['mdp'], $resultat->motdepasse )) {
         $_SESSION['mel'] = $resultat->mel;
         $_SESSION['nom'] = $resultat->nom;
         $_SESSION['prenom'] = $resultat->prenom;

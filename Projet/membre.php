@@ -19,7 +19,7 @@ if (!isset($_SESSION['profil']) || $_SESSION['profil'] !== 'admin') {
 </head>
 
 <body>
-<div class="container-fluid mt-3">
+    <div class="container-fluid mt-3">
         <div class="row">
             <?php
             require_once('conf/connexion.php');
@@ -37,13 +37,7 @@ if (!isset($_SESSION['profil']) || $_SESSION['profil'] !== 'admin') {
                 $cp = $_POST['codepostal'];
                 $profil = $_POST['profil'];
                 //Hachage du mot de passe
-                $mdp_hache = password_hash($mdp, PASSWORD_DEFAULT);
-                //Vérification du mot de passe
-                if(password_verify($mdp,$mdp_hache)){
-                    echo 'Le mot de passe est valide !';
-                } else {
-                    echo 'Le mot de passe est invalide.';
-                }
+                $mdp_hache = password_hash($mdp, PASSWORD_ARGON2I);
                 //Contrôle de saisie
                 if (empty($mel) || !filter_var($mel, FILTER_VALIDATE_EMAIL)) {
                     $erreurs['mel'] = 'Le mel est vide ou invalide.';
@@ -97,7 +91,7 @@ if (!isset($_SESSION['profil']) || $_SESSION['profil'] !== 'admin') {
                             <label for="mel" class="form-label">Mel: </label>
                             <input type="text" class="form-control" name="mel" required>
                             <?php
-                            if (isset($erreurs['mel'])){
+                            if (isset($erreurs['mel'])) {
                                 echo '<span class="text-danger">' . $erreurs['mel'] . '</span>';
                             }
                             ?>
@@ -106,7 +100,7 @@ if (!isset($_SESSION['profil']) || $_SESSION['profil'] !== 'admin') {
                             <label for="motdepasse" class="form-label"> Mot de passe: </label>
                             <input type="text" class="form-control" name="motdepasse" required>
                             <?php
-                            if (isset($erreurs['motdepasse'])){
+                            if (isset($erreurs['motdepasse'])) {
                                 echo '<span class="text-danger">' . $erreurs['motdepasse'] . '</span>';
                             }
                             ?>
@@ -131,7 +125,7 @@ if (!isset($_SESSION['profil']) || $_SESSION['profil'] !== 'admin') {
                             <label for="codepostal" class="form-label">Code Postal: </label>
                             <input type="text" class="form-control" name="codepostal" required>
                             <?php
-                            if (isset($erreurs['codepostal'])){
+                            if (isset($erreurs['codepostal'])) {
                                 echo '<span class="text-danger">' . $erreurs['codepostal'] . '</span>';
                             }
                             ?>
