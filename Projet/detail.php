@@ -16,7 +16,7 @@ session_start();
     <?php
     echo'<div class="container-fluid mt-3">';
     echo '<div class="row">';
-    echo'    <div class="col-md-10">';
+    echo'<div class="col-md-10">';
     if (isset($_GET['nolivre'])) {
         $noauteur = $_GET['nolivre'];
         require_once('conf/connexion.php');

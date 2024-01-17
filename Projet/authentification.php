@@ -1,3 +1,7 @@
+<?php
+//Activation de la temporisation de la sortie
+ob_start();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -23,7 +27,7 @@
   if ($_SESSION['connecte'] === true) {
     if ($_SESSION['profil'] !== "membre") {
       echo '<div class="border p-3 text-center">';
-      echo '<p >' . $_SESSION['profil'] . ' :'. '</p><br>';
+      echo '<p >' . $_SESSION['profil'] . ' :' . '</p><br>';
       echo '<p>' . $_SESSION['prenom'] . ' ' . $_SESSION['nom'] . '</p><br>';
       echo '<p>' . $_SESSION['mel'] . '</p><br>';
       echo '<form method="post">
@@ -58,7 +62,7 @@
       $requete->execute();
       $resultat = $requete->fetch(PDO::FETCH_OBJ);
       //Vérification du mot de passe
-      if (password_verify($_POST['mdp'], $resultat->motdepasse )) {
+      if (password_verify($_POST['mdp'], $resultat->motdepasse)) {
         $_SESSION['mel'] = $resultat->mel;
         $_SESSION['nom'] = $resultat->nom;
         $_SESSION['prenom'] = $resultat->prenom;
@@ -86,8 +90,11 @@
       echo '</div>';
     }
   }
-
   ?>
 </body>
 
 </html>
+<?php
+//Envoi de la sortie mise en tampon
+ob_end_flush();
+?>
