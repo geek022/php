@@ -13,7 +13,7 @@
             /* Nom du Cookie */
             "orientation": "middle",
             /* Position de la bannière (top - bottom) */
-            "showAlertSmall": true,
+            "showAlertSmall": false,
             /* Voir la bannière réduite en bas à droite */
             "cookieslist": true,
             /* Voir la liste des cookies */
@@ -42,7 +42,7 @@
 </head>
 
 <body>
-    <div class="youtube_player" videoID="PJCvmeRILLk" width="225" height="140" theme="light" rel="0" controls="1" showinfo="1" autoplay="0"></div>
+    <div class="youtube_player" videoID="PJCvmeRILLk" width="220" height="140" theme="light" rel="0" controls="1" showinfo="1" autoplay="0"></div>
     <?php
     $x = 10;
     $_SESSION["y"] = 10;
