@@ -8,7 +8,7 @@ if (!isset($_SESSION['panier']) || !is_array($_SESSION['panier'])) {
     $_SESSION['panier'] = array();
 }
 //Le déclaration du maximal d'emprunts autorisés
-$nombreEmpruntsMax = 5 ;
+$nombreEmpruntsMax = 5;
 //Calcul du nombre d'emprunts restants
 $empruntsEncours = $nombreEmpruntsMax - count($_SESSION['panier']);
 ?>
@@ -24,16 +24,16 @@ $empruntsEncours = $nombreEmpruntsMax - count($_SESSION['panier']);
 </head>
 
 <body>
-<div class="container-fluid mt-3">
+    <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-md-10">
                 <h1 class="text-center text-success">Votre panier </h1><br>
                 <?php
                 //J'affiche un message sur le nombre d'emprunts restants
-                if($empruntsEncours == 1){
-                    echo'<p class="text-primary text-center">(encore 1 réservation possible, ' . $empruntsEncours . ' emprunt en cours)</p>';
-                }else{
-                    echo'<p class="text-primary text-center">(encore ' . $empruntsEncours . ' réservation possibles, ' . $empruntsEncours . ' emprunts en cours)</p>';
+                if ($empruntsEncours == 1) {
+                    echo '<p class="text-primary text-center">(encore 1 réservation possible, ' . $empruntsEncours . ' emprunt en cours)</p>';
+                } else {
+                    echo '<p class="text-primary text-center">(encore ' . $empruntsEncours . ' réservation possibles, ' . $empruntsEncours . ' emprunts en cours)</p>';
                 }
                 ?>
                 <?php
@@ -43,75 +43,78 @@ $empruntsEncours = $nombreEmpruntsMax - count($_SESSION['panier']);
                     if (isset($_SESSION['emprunter'])) {
                         if (isset($_SESSION['panier']) && is_array($_SESSION['panier'])) {
                             //Vérification du nombre d'emprunts restants
-                            if($empruntsEncours > 0){
+                            if ($empruntsEncours > 0) {
                                 //Je récupère les détails du livre à emrpunter
-                            $requete = $connexion->prepare("SELECT * FROM LIVRE WHERE nolivre =:emprunter ");
-                            $requete->bindParam(":emprunter", $_SESSION['emprunter']);
-                            $requete->execute();
-                            $resultat = $requete->fetch(PDO::FETCH_OBJ);
-                            //Création d'un tableau associatif pour représenter le livre
-                            $tableaux = array(
-                                'nolivre' => $resultat->nolivre,
-                                'noauteur' => $resultat->noauteur,
-                                'Titre' => $resultat->titre,
-                                'ISBN13' => $resultat->isbn13,
-                                'Annee de parution' => $resultat->anneeparution,
-                                'Résumé' => $resultat->resume,
-                                "Date d'ajout" => $resultat->dateajout,
-                                'Image' => $resultat->image,
-                            );
-                            //Si le panier n'existe pas, je le crée
-                            if (!isset($_SESSION['panier'])) {
-                                $_SESSION['panier'] = array();
-                            }if(!in_array($tableaux, $_SESSION['panier'])){
-                                array_push($_SESSION["panier"],$tableaux);
-                                //Je décremente le nombre d'emprunts restants
-                                $empruntsEncours--;
-                            }else{
-                                echo'<p class="text-danger text-center">Ce livre existe déja dans votre panier</p>';
+                                $requete = $connexion->prepare("SELECT * FROM LIVRE WHERE nolivre =:emprunter ");
+                                $requete->bindParam(":emprunter", $_SESSION['emprunter']);
+                                $requete->execute();
+                                $resultat = $requete->fetch(PDO::FETCH_OBJ);
+                                //Création d'un tableau associatif pour représenter le livre
+                                $tableaux = array(
+                                    'nolivre' => $resultat->nolivre,
+                                    'noauteur' => $resultat->noauteur,
+                                    'Titre' => $resultat->titre,
+                                    'ISBN13' => $resultat->isbn13,
+                                    'Annee de parution' => $resultat->anneeparution,
+                                    'Résumé' => $resultat->resume,
+                                    "Date d'ajout" => $resultat->dateajout,
+                                    'Image' => $resultat->image,
+                                );
+                                //Si le panier n'existe pas, je le crée
+                                if (!isset($_SESSION['panier'])) {
+                                    $_SESSION['panier'] = array();
+                                }
+                                if (!in_array($tableaux, $_SESSION['panier'])) {
+                                    array_push($_SESSION["panier"], $tableaux);
+                                    //Je décremente le nombre d'emprunts restants
+                                    $empruntsEncours--;
+                                } else {
+                                    echo '<p class="text-danger text-center">Ce livre existe déja dans votre panier</p>';
+                                }
+                            } else {
+                                echo '<p class="text-danger text-center">Vous avez atteint la limite d\'emprunts en cours (5).</p>';
                             }
-                        } else {
-                            echo '<p class="text-danger text-center">Vous avez atteint la limite d\'emprunts en cours (5).</p>';
                         }
                     }
                 }
-            }
-            //Affichage des livres dans le panier
-                $livre = null;
-                foreach ($_SESSION['panier'] as $index => $livre) {
-                    $requete = $connexion->prepare("SELECT * FROM LIVRE L INNER JOIN AUTEUR A ON (L.noauteur=A.noauteur) WHERE a.noauteur=:livre");
-                    $requete->bindParam(":livre", $livre['noauteur']);
+                //Affichage des livres dans le panier
+                foreach ($_SESSION['panier'] as $index => $livreDansPanier) {
+                    $requete = $connexion->prepare("SELECT * FROM LIVRE L INNER JOIN AUTEUR A ON (L.noauteur=A.noauteur) WHERE L.nolivre=:livre");
+                    $requete->bindParam(":livre", $livreDansPanier['nolivre']);
                     $requete->execute();
                     echo '<div class="d-flex justify-content-center mb-2">';
                     $res = $requete->fetch(PDO::FETCH_OBJ);
                     echo '<div class="d-flex">';
-                    echo '<p>' . $res->nom . "-" . $res->prenom . " (" . $res->anneeparution . ")" . '</p>';
-                    echo '<form method="post" action="panier.php">';
-                    echo '<input type="submit" class="ms-2" value="Annuler" name="annuler">';
+                    echo '<p>' . $res->nom . " " . $res->prenom . " - " . $res->titre . " (" . $res->anneeparution . ")" . '</p>';
+                    echo '<form method="post">';
+                    echo '<input type="hidden" name="nolivre" value="' . $index . '">';
+                    echo '<input type="submit" class="btn btn-secondary ms-2" name="annuler" value="Annuler">';
                     echo '</form>';
                     echo '</div>';
                     echo '</div>';
                 }
                 //Suppression d'un livre panier lorsqu'on clique sur le bouton "Annuler"
                 if (isset($_POST['annuler'])) {
-                    $index = array_search($livre,$_SESSION['panier']);
-                    if($index !== false){
+                    $index = $_POST['nolivre'];
+                    if ($_SESSION['panier'][$index]) {
                         unset($_SESSION['panier'][$index]);
-                        //J'incrémente le nombre d'emprunts restants
-                        $empruntsEncours++;
+                        $_SESSION['panier'] = array_values($_SESSION['panier']);
                     }
+                    header('Location:panier.php');
+                    exit();
                 }
+
                 //Je vérifie si le panier a été validé
                 if (isset($_POST['panier'])) {
                     $connexion->beginTransaction();
                     try {
-                        foreach ($_SESSION['panier'] as $livre) {
+                        foreach ($_SESSION['panier'] as $livre_emprunter) {
                             //J'insère les livres empruntés dans la BDD
                             $stmt = $connexion->prepare("INSERT INTO EMPRUNTER (mel,nolivre,dateemprunt) VALUES (:mel,:nolivre, NOW())");
-                            $stmt->bindParam(":mel",$_SESSION['mel']);
-                            $stmt->bindParam(":nolivre", $livre['nolivre']);
-                            if(!$stmt->execute()){
-                                throw new Exception('Erreur lors de l\'insertion du livre');
+                            $stmt->bindParam(":mel", $_SESSION['mel']);
+                            $stmt->bindParam(":nolivre", $livre_emprunter['nolivre']);
+                            if (!$stmt->execute()) {
+                                throw new Exception("Erreur lors de l'insertion du livre");
                             }
                         }
                         $connexion->commit();
@@ -135,11 +138,12 @@ $empruntsEncours = $nombreEmpruntsMax - count($_SESSION['panier']);
                 </div>
             </div>
             <div class="col-md-2">
-                <?php 
+                <?php
                 include_once('authentification.php');
                 include_once('session.php');
-                 ?>
+                ?>
             </div>
         </div>
 </body>
+
 </html>

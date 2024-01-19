@@ -7,6 +7,10 @@ if (isset($_SESSION['profil']) && $_SESSION['profil'] == 'membre') {
     header('Location:accueil.php');
     exit();
 }
+if(!isset($_SESSION['profil'])){
+    header('Location:accueil.php');
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">

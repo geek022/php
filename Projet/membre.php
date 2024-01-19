@@ -6,6 +6,10 @@ if (!isset($_SESSION['profil']) || $_SESSION['profil'] !== 'admin') {
     header('Location:accueil.php');
     exit();
 }
+if(!isset($_SESSION['profil'])){
+    header('Location:accueil.php');
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -74,7 +78,7 @@ if (!isset($_SESSION['profil']) || $_SESSION['profil'] !== 'admin') {
                 <div class="border p-3">
                     <form method="post" action="menu_admin.php">
                         <button class="btn" type="submit" name="ajouter">Ajouter un livre</button>
-                        <a href="membre.php" class="btn" type="button" name="membre">Créer un membre</a>
+                        <a href="membre.php" class="btn" type="button">Créer un membre</a>
                     </form>
                 </div>
             </div>

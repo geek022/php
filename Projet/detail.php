@@ -18,10 +18,10 @@ session_start();
     echo '<div class="row">';
     echo'<div class="col-md-10">';
     if (isset($_GET['nolivre'])) {
-        $noauteur = $_GET['nolivre'];
+        //$noauteur = $_GET['nolivre'];
         require_once('conf/connexion.php');
         // AFFICHAGE nolivre récupéré de l'URL
-        $_GET['nolivre'];
+        //$_GET['nolivre'];
         $requete = $connexion->prepare("SELECT * FROM AUTEUR A INNER JOIN LIVRE L ON A.noauteur=L.noauteur where L.nolivre=:nolivre");
         $requete->bindParam(":nolivre", $_GET['nolivre']);
         $requete->execute();
@@ -60,10 +60,10 @@ session_start();
             echo '<div class="d-flex">';
             echo '<h4 class="text-success">Disponible  </h4>';
             echo '<div>';
-            echo '<form action="panier.php" method="post" >
-            <input type="submit" class="btn btn-outline-secondary text-center mx-4" value="Emprunter(ajout au panier)" name="emprunter">
-            <a href="panier.php" name="nolivre"></a>
-            </form>';
+            echo '<form action="panier.php" method="post" >';
+            echo'<input type="hidden" name="idl" value=' . $livre . '">';
+            echo'<button type="submit" class="btn btn-outline-secondary text-center mx-4" name="emprunter">Emprunter (ajout au panier)</button>';
+            echo'</form>';
             echo '</div>';
             echo '</div>';
             $_SESSION['emprunter'] = $_GET['nolivre'];
